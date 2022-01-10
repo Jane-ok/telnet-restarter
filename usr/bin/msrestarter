@@ -14,7 +14,7 @@ do
     continue
   else
     rm -f ${n}
-    echo "Process msrestarter ${n} was killed at `date`" >> ${LOGFILE_1}
+    echo "Process msrestarter $(cat ${n}) was killed at `date`" >> ${LOGFILE_1}
   fi
 done
 ###############################################################
