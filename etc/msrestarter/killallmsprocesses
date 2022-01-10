@@ -1,0 +1,13 @@
+#!/bin/bash
+
+PIDS=/etc/msrestarter/PIDs/*
+
+for n in ${PIDS}
+do
+  ps -ef | grep msrestarter | grep $(cat ${n}) >> /dev/null
+  if [ $? -eq 0 ]
+  then
+    kill -9 $(cat ${n})
+    rm -f ${n}
+  fi
+done

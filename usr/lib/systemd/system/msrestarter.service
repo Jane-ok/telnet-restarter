@@ -1,0 +1,16 @@
+[Unit]
+Description = MS restarter
+
+[Service]
+Type=simple
+
+Restart=always
+RestartSec=3600
+KillMode=process
+
+ExecStart=/usr/bin/msrestarter
+
+[Install]
+WantedBy=multi-user.target
+Alias=msrestarter.service
+

@@ -1,0 +1,6 @@
+#!/bin/bash
+
+mkdir /var/log/msrestarter
+mkdir /etc/msrestarter
+mkdir /etc/msrestarter/PIDs
+

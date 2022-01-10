@@ -1,0 +1,2 @@
+Systemd daemon, which restart not avialable by telnet devices by Arduino module.
+You can run "fakeroot dpkg-deb --build msrestarter" to buid .deb package.

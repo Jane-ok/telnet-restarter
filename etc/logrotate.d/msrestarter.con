@@ -1,0 +1,9 @@
+/var/log/msrestarter/*.log {
+daily
+rotate 3
+size 50M
+compress
+delaycompress
+maxage 30
+}
+

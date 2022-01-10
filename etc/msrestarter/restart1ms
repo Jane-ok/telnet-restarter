@@ -1,0 +1,24 @@
+#!/bin/bash
+
+TIMEOUT=1
+REMOTEPORT=23
+
+MS=`echo $1 | awk -F";" '{print $1}'`
+Restarter=`echo $1 | awk -F";" '{print $2}'`
+SWport=`echo $1 | awk -F";" '{print $3}'`
+LOGFILE_n=/var/log/msrestarter/${MS}.log
+
+while true
+ do
+   if nc -w ${TIMEOUT} -z ${MS} ${REMOTEPORT}
+   then
+     echo all is OK >> /dev/null
+   else
+      comtorestart='http://'${Restarter}'/'${SWport}
+      curl ${comtorestart} 2>> /dev/null
+      echo $(date --rfc-3339=seconds) "Device ${MS} restarted" >> ${LOGFILE_n}
+    fi
+
+  sleep 60
+
+done

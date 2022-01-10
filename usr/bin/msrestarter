@@ -1,0 +1,44 @@
+#!/bin/bash
+IP_LIST=/etc/msrestarter/MS_ip_list
+PIDFILE_1=/etc/msrestarter/PIDs/msrestarter.PID
+LOGFILE_1=/var/log/msrestarter/msrestarter.log
+PIDS=/etc/msrestarter/PIDs
+
+############Checking running processes from PID dir#############
+####if they are not runing, then remove its PID file############
+for n in ${PIDS}/*
+do
+  ps -ef | grep msrestarter | grep $(cat ${n}) >> /dev/null
+  if [ $? -eq 0 ]
+  then
+    continue
+  else
+    rm -f ${n}
+    echo "Process msrestarter ${n} was killed at `date`" >> ${LOGFILE_1}
+  fi
+done
+###############################################################
+
+if [ ! -e ${PIDFILE_1} ]
+then
+
+  echo "$$" > ${PIDFILE_1}
+  MS_COUNT=`tail -n +2 ${IP_LIST} | wc -l`
+
+  for (( i = 1 ; i <= ${MS_COUNT} ; i++ ))
+  do
+
+    line_from=`echo $(tail -n +2 ${IP_LIST}) | awk -F" " -v num="$i" '{print $num}'`
+    MS=`echo ${line_from} | awk -F";" '{print $1}'`
+
+    if [ ! -e ${PIDS}/${MS}.PID ]
+    then
+      . /etc/msrestarter/restart1ms ${line_from} & #Start scan one device as process
+      echo "$!" > ${PIDS}/${MS}.PID
+    fi
+
+  done
+
+  rm ${PIDFILE_1}
+
+fi

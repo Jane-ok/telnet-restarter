@@ -1,0 +1,7 @@
+Package: msrestarter
+Version: 1.0
+Section: misc
+Architecture: all
+Depends: bash, logrotate, netcat
+Maintainer: Jane
+Description: restarting dev
